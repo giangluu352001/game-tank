@@ -36,9 +36,9 @@ export abstract class Tank extends Phaser.GameObjects.Image {
         this.lifeBar.setDepth(1);
     }
 
-    public updateHealth(): void {
+    public updateHealth(val: number): void {
         if (this.health > 0) {
-            this.health -= 0.05;
+            this.health -= val;
             this.redrawLifebar();
         } 
         else {

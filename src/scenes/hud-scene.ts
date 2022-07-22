@@ -21,13 +21,9 @@ export class HUDScene extends Phaser.Scene {
       this.pausePopUp = new PausePopUp(initContainer).setVisible(false);
       this.gameOverPopUp = new GameOverPopUp(initContainer).setVisible(false);
     }
-    private stop(): void {
+    public pause(): void {
       this.pauseButton.setVisible(false);
       this.scene.pause('GameScene');
-    }
-    
-    public pause(): void {
-      this.stop();
       this.showPopUp(this.pausePopUp);
     }
     public resume(): void {
@@ -42,7 +38,6 @@ export class HUDScene extends Phaser.Scene {
       this.gameOverPopUp.setScoreText();
       this.cameras.main.flash();
       this.showPopUp(this.gameOverPopUp);
-      this.stop();
     }
     public reinit(): void {
         this.registry.set('score', 0);

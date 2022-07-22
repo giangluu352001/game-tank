@@ -127,12 +127,12 @@ export class Player extends Tank {
   }
 
   public updateHealth(): void {
-    super.updateHealth();
+    super.updateHealth(0.01);
     if (!this.active) {
       this.emitter.explode(10, this.x, this.y);
       let scene = this.scene.scene.get('HUDScene') as HUDScene;
       this.scene.time.addEvent({
-        delay: 500,
+        delay: 1000,
         callback: () => scene.gameOver(),
         callbackScope: this
       });

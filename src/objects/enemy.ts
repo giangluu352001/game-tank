@@ -78,4 +78,7 @@ export class Enemy extends Tank {
       }
     }
   }
+  public updateHealth(): void {
+    super.updateHealth(0.05);
+  }
 }
