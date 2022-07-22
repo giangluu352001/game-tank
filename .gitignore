@@ -1,0 +1,7 @@
+# Folders
+.vscode/
+node_modules/
+.cache
+
+# Files
+.DS_STORE
