@@ -19,16 +19,19 @@ export class HUDScene extends Phaser.Scene {
         y: this.sys.canvas.height / 2 - 400,
         text: 'PAUSE'
       });
+
       this.pausePopUp = new PausePopUp({
         scene: this,
         x: this.sys.canvas.width / 2,
         y: this.sys.canvas.height / 2,
       }).setVisible(false);
+
       this.gameOverPopUp = new GameOverPopUp({
         scene: this,
         x: this.sys.canvas.width / 2,
         y: this.sys.canvas.height / 2,
       }).setVisible(false);
+      
     }
     public pause(): void {
       this.pauseButton.setVisible(false);

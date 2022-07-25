@@ -17,9 +17,17 @@ export class GameOverPopUp extends Phaser.GameObjects.Container {
 
     private create(): void {
         let board = this.scene.add.image(0, 0, 'board').setScale(2);
-        this.highScoreText = this.scene.add.text(0, 0, `HIGHSCORE 0`, { fontFamily: 'Impact',  fontSize: '40px', color: '#737373' });
+        this.highScoreText = this.scene.add.text(0, 0, `HIGHSCORE 0`, { 
+            fontFamily: 'Impact',
+            fontSize: '40px', 
+            color: '#737373' 
+        });
         let score = this.scene.registry.get('score');
-        this.scoreText = this.scene.add.text(0, 0, `SCORE ${score}`, {fontFamily: 'Impact', fontSize: '40px', color: '#737373' });
+        this.scoreText = this.scene.add.text(0, 0, `SCORE ${score}`, {
+            fontFamily: 'Impact',
+            fontSize: '40px',
+            color: '#737373'
+        });
         this.buttonNew = new Button({
             scene: this.scene, 
             x: 0,
