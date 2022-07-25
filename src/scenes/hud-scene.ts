@@ -1,3 +1,4 @@
+import { Button } from "../objects/popup/button";
 import { GameOverPopUp } from "../objects/popup/gameoverPopUp";
 import { PauseButton } from "../objects/popup/pauseButton";
 import { PausePopUp } from "../objects/popup/pausePopUp";
@@ -11,15 +12,23 @@ export class HUDScene extends Phaser.Scene {
       super({ key: 'HUDScene' });
     }
     create(): void {
-      let initContainer = {
+      this.soundState = true;
+      this.pauseButton = new PauseButton({
         scene: this,
         x: this.sys.canvas.width / 2,
-        y: this.sys.canvas.height / 2
-      }
-      this.soundState = true;
-      this.pauseButton = new PauseButton(initContainer);
-      this.pausePopUp = new PausePopUp(initContainer).setVisible(false);
-      this.gameOverPopUp = new GameOverPopUp(initContainer).setVisible(false);
+        y: this.sys.canvas.height / 2 - 400,
+        text: 'PAUSE'
+      });
+      this.pausePopUp = new PausePopUp({
+        scene: this,
+        x: this.sys.canvas.width / 2,
+        y: this.sys.canvas.height / 2,
+      }).setVisible(false);
+      this.gameOverPopUp = new GameOverPopUp({
+        scene: this,
+        x: this.sys.canvas.width / 2,
+        y: this.sys.canvas.height / 2,
+      }).setVisible(false);
     }
     public pause(): void {
       this.pauseButton.setVisible(false);
@@ -34,6 +43,7 @@ export class HUDScene extends Phaser.Scene {
     public gameOver(): void {
       let score = this.registry.get('score');
       let highScore = this.registry.get('highScore');
+      this.pauseButton.setVisible(false);
       this.registry.set('highScore', Math.max(highScore, score));
       this.gameOverPopUp.setScoreText();
       this.cameras.main.flash();
@@ -45,14 +55,14 @@ export class HUDScene extends Phaser.Scene {
         this.scene.launch('GameScene');
         this.pauseButton.setVisible(true);
     }
-    public controllSound(button: Phaser.GameObjects.Image): void {
+    public controllSound(button: Button): void {
       if (this.soundState) {
         this.sound.mute = true;
-        button.setTint(0x2A1335);
+        button.getContainer().setTint(0x2A1335);
       }
       else {
         this.sound.mute = false;
-        button.clearTint();
+        button.getContainer().clearTint();
       }
       this.soundState = !this.soundState;
     }

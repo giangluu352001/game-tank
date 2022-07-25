@@ -1,11 +1,11 @@
 import { IContainerConstructor } from "../../interfaces/container.interface";
 import { HUDScene } from "../../scenes/hud-scene";
+import { Button } from "./button";
 
 export class GameOverPopUp extends Phaser.GameObjects.Container {
     scene: HUDScene;
 
-    private board: Phaser.GameObjects.Image;
-    private button: Phaser.GameObjects.Image;
+    private buttonNew: Button;
     private scoreText: Phaser.GameObjects.Text;
     private highScoreText: Phaser.GameObjects.Text;
 
@@ -16,24 +16,24 @@ export class GameOverPopUp extends Phaser.GameObjects.Container {
     }
 
     private create(): void {
-        this.board = this.scene.add.image(0, 0, 'board').setScale(2);
+        let board = this.scene.add.image(0, 0, 'board').setScale(2);
         this.highScoreText = this.scene.add.text(0, 0, `HIGHSCORE 0`, { fontFamily: 'Impact',  fontSize: '40px', color: '#737373' });
-
         let score = this.scene.registry.get('score');
         this.scoreText = this.scene.add.text(0, 0, `SCORE ${score}`, {fontFamily: 'Impact', fontSize: '40px', color: '#737373' });
-        this.button = this.scene.add.image(0, 0, 'bounding');
-        
-        let newGameText = this.scene.add.bitmapText(0, 0, 'font', 'NEW', 25);
-        let newGame = this.scene.add.container().add([this.button, newGameText]);
+        this.buttonNew = new Button({
+            scene: this.scene, 
+            x: 0,
+            y: 0,
+            text: 'NEW'
+        });
 
-        Phaser.Display.Align.In.Center(this.highScoreText, this.board);
-        Phaser.Display.Align.In.TopCenter(this.scoreText, this.board, 0, -150);
-        Phaser.Display.Align.In.Center(newGameText, this.button);
-        Phaser.Display.Align.In.BottomCenter(newGame, this.board, 0, -170);
+        Phaser.Display.Align.In.Center(this.highScoreText, board);
+        Phaser.Display.Align.In.TopCenter(this.scoreText, board, 0, -150);
+        Phaser.Display.Align.In.BottomCenter(this.buttonNew, board, 0, -170);
 
-        this.add(this.board).add(this.scoreText).add(this.highScoreText).add(newGame);
+        this.add(board).add(this.scoreText).add(this.highScoreText).add(this.buttonNew);
 
-        this.button.setInteractive().on('pointerdown', this.handleNewGame);
+        this.buttonNew.getContainer().setInteractive().on('pointerdown', this.handleNewGame);
     }
 
     public setScoreText(): void {
@@ -41,13 +41,6 @@ export class GameOverPopUp extends Phaser.GameObjects.Container {
         this.highScoreText.setText(`HIGHSCORE  ${this.scene.registry.get('highScore')}`);
     }
     private handleNewGame = (): void => {
-        this.scene.tweens.add({
-            targets: this.button,
-            alpha: 0.5,
-            duration: 300,
-            loop: false,
-            yoyo: true,
-            onComplete: () => this.scene.reinit()
-        });
+        this.scene.reinit();
     }
 }
