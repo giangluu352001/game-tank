@@ -33,6 +33,11 @@
                 "url": "./assets/images/flame.png"
             },
             {
+                "type": "image",
+                "key": "play",
+                "url": "./assets/images/Play.png"
+            },
+            {
                 "type": "audio",
                 "key": "hit",
                 "url": "./assets/musics/hit.mp3"
