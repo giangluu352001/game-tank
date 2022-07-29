@@ -1,21 +1,20 @@
 import { Bullet } from './bullet';
-import { IImageConstructor } from '../interfaces/image.interface';
+import { IImageConstructor } from '../interfaces/image';
 import { Tank } from './tank';
 
 export class Enemy extends Tank {
 
   constructor(aParams: IImageConstructor) {
     super(aParams);
-    this.initContainer();
+    this.init();
   }
 
-  private initContainer() {
-    // variables
+  private init() {
     this.health = 1;
     this.lastShoot = 0;
     this.speed = 100;
+    this.shootingDelay = 400;
 
-    // image
     this.setDepth(0);
 
     this.barrel = this.scene.add.image(0, 0, 'barrelRed');
@@ -25,15 +24,40 @@ export class Enemy extends Tank {
     this.lifeBar = this.scene.add.graphics();
     this.redrawLifebar();
 
-    // game objects
     this.bullets = this.scene.add.group({
-      /*classType: Bullet,*/
-      active: true,
-      maxSize: 10,
+      classType: Bullet,
+      maxSize: 5,
       runChildUpdate: true
     });
+    this.createBulletPools(5);
+    this.move();
+  }
 
-    // tweens
+  update(): void {
+    if (this.active) {
+      this.setAccessoriesPosition();
+      this.shoot();
+    }
+    else this.destroyAll();
+  }
+
+  public changeShootingAngle(playerX: number, playerY: number): void {
+    if (this.active) {
+      let angle = Phaser.Math.Angle.Between(
+        this.body.x,
+        this.body.y,
+        playerX,
+        playerY
+      );
+      this.barrel.setAngle((angle + Math.PI / 2) * Phaser.Math.RAD_TO_DEG);
+    }
+  }
+
+  public move(): void {
+    this.moveAnimation();
+  }
+
+  private moveAnimation(): void {
     this.scene.tweens.add({
       targets: this,
       props: { y: this.y - 200 },
@@ -48,37 +72,36 @@ export class Enemy extends Tank {
     });
   }
 
-  update(): void {
-    if (this.active) {
-      this.setAccessoriesPosition();
-      this.handleShooting();
-    }
-    else {
-      let score = this.scene.registry.get('score');
-      this.scene.registry.set('score', score + 1);
-      this.emitter.explode(10, this.x, this.y);;
-      this.isDead();
-    }
-  }
-
-  protected handleShooting(): void {
-    if (this.scene.time.now > this.lastShoot) {
-      if (this.bullets.getLength() < 10) {
-        this.bullets.add(
-          new Bullet({
-            scene: this.scene,
-            rotation: this.barrel.rotation,
-            x: this.barrel.x,
-            y: this.barrel.y,
-            texture: 'bulletRed'
-          })
-        );
-
-        this.lastShoot = this.scene.time.now + 400;
+  public shoot(): void {
+    if (!this.isPaused) {
+      if (this.scene.time.now > this.lastShoot) {
+        let bullet = this.bullets.get();
+        if (bullet) {
+          bullet.fire(this.barrel.rotation, this.barrel.x, this.barrel.y);
+          this.lastShoot = this.scene.time.now + this.shootingDelay;
+        }
       }
     }
   }
-  public updateHealth(): void {
-    super.updateHealth(0.05);
+
+  private createBulletPools(quantity: number): void {
+    for (let i = 0; i < quantity; i++) 
+    {
+      let bullet = new Bullet({
+        scene: this.scene,
+        rotation: this.barrel.rotation,
+        x: this.barrel.x,
+        y: this.barrel.y,
+        texture: 'bulletRed',
+        damage: 0.01,
+        color: 'red'
+      });
+      this.bullets.add(bullet);
+    }
+  }
+
+  public gotHurt(damage: number): void {
+    this.updateHealth(damage);
+    if (this.isDead()) this.emitExplosion();
   }
 }

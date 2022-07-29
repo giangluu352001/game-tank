@@ -23,14 +23,20 @@
                 "atlasURL": "./assets/images/flares.json"
             },
             {
+                "type": "atlas",
+                "key": "explosion",
+                "textureURL": "./assets/sprites/explosion.png",
+                "atlasURL": "./assets/sprites/explosion.json"
+            },
+            {
                 "type": "audio",
                 "key": "shoot",
                 "url": "./assets/musics/shoot.mp3"
             },
             {
                 "type": "image",
-                "key": "flame",
-                "url": "./assets/images/flame.png"
+                "key": "play",
+                "url": "./assets/images/Play.png"
             },
             {
                 "type": "audio",
