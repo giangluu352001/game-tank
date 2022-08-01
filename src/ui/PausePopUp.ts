@@ -20,9 +20,9 @@ export class PausePopUp extends PopUp {
         this.newGameButton =  new Button(this.scene, 0, 0, 'NEW');
         this.soundButton =  new Button(this.scene, 0, 0, 'SOUND');
 
-        Phaser.Display.Align.In.LeftCenter(this.continueButton, this.board);
-        Phaser.Display.Align.In.Center(this.newGameButton, this.board);
-        Phaser.Display.Align.In.RightCenter(this.soundButton, this.board);
+        Phaser.Display.Align.In.LeftCenter(this.continueButton, this.board, 20);
+        Phaser.Display.Align.In.Center(this.newGameButton, this.board, -20);
+        Phaser.Display.Align.In.RightCenter(this.soundButton, this.board, -15);
 
         this.add(this.board).add(this.continueButton).add(this.newGameButton).add(this.soundButton);
         

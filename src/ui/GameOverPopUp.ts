@@ -34,9 +34,9 @@ export class GameOverPopUp extends PopUp {
         });
         this.buttonNew = new Button(this.scene, 0, 0, 'NEW');
 
-        Phaser.Display.Align.In.Center(this.highScoreText, this.board);
-        Phaser.Display.Align.In.TopCenter(this.scoreText, this.board, 0, -150);
-        Phaser.Display.Align.In.BottomCenter(this.buttonNew, this.board, 0, -170);
+        Phaser.Display.Align.In.Center(this.highScoreText, this.board, 0, -20);
+        Phaser.Display.Align.In.TopCenter(this.scoreText, this.board, 0, -130);
+        Phaser.Display.Align.In.BottomCenter(this.buttonNew, this.board, 0, -190);
 
         this.add(this.board).add(this.scoreText).add(this.highScoreText).add(this.buttonNew);
     }

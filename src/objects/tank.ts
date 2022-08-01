@@ -11,12 +11,13 @@ export abstract class Tank extends Phaser.GameObjects.Image implements ITank {
     protected lastShoot: number;
     protected speed: number;
     protected shootingDelay: number; 
-    protected isPaused: boolean;
-    protected lifeBar: Phaser.GameObjects.Graphics;
     protected bullets: Phaser.GameObjects.Group;
     protected barrel: Phaser.GameObjects.Image;
-    protected particles: Phaser.GameObjects.Particles.ParticleEmitterManager;
 
+    protected isPaused: boolean;
+    protected lifeBar: Phaser.GameObjects.Graphics;
+    protected particles: Phaser.GameObjects.Particles.ParticleEmitterManager;
+    
     constructor(aParams: IImageConstructor) {
         super(aParams.scene, aParams.x, aParams.y, aParams.texture, aParams.frame);
         this.scene.add.existing(this);
