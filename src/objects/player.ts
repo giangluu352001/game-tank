@@ -44,14 +44,14 @@ export class Player extends Tank {
     if (this.isDead()) {
       this.emitExplosion();
       this.scene.time.addEvent({
-        delay: 1000,
+        delay: 1500,
         callback: this.scene.gameOver,
         callbackScope: this
       });
     }
   }
 
-  private init() {
+  private init(): void {
     this.health = 1;
     this.lastShoot = 0;
     this.speed = 300;

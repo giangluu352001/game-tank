@@ -9,7 +9,7 @@ export class Enemy extends Tank {
     this.init();
   }
 
-  private init() {
+  private init(): void {
     this.health = 1;
     this.lastShoot = 0;
     this.speed = 100;
